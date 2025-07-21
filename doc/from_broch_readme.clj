@@ -28,4 +28,4 @@
 ;;   (defrecord Quantity [magnitude exponents])
 ;;     exponents is an empty map for unitless numbers.
 ;;
-;; simplify: anything -> number, vector or map
+;; simplify: anything -> number, base unit, vector or map
