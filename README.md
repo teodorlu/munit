@@ -6,14 +6,13 @@
 ## Design goals
 
 - Unit systems other than SI are supported.
-- ... though a unit system for is provided.
+- ... though a unit system for SI is provided.
 - Numbers with units are easy to work with from the REPL.
 
 ## Non-design goals
 
-- We don't try to infer the intended target unit - you get quantities in terms of base units.
-- We don't aim for fast numerical performance (currently).
-  An idea for fast numerics is to do unit consistency once, then create a checkless pathway afterwards.
+- Don't try to infer the intended target unit, just work on base units.
+- Don't aim for numerical performance for now.
 
 ## Acknowledgements
 
