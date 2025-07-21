@@ -1,6 +1,6 @@
 # μnit
 
-/A small library for arithmetic on numbers with units./
+*A small library for arithmetic on numbers with units.*
 (Pronounced "munit")
 
 ## Design goals
