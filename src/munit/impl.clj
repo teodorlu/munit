@@ -2,9 +2,11 @@
   "Boilerplate for working with units. Do not use directly."
   (:require munit.runtime))
 
+(set! *warn-on-reflection* true)
+
 (defrecord BaseUnit [system sym])
 
-(defmethod print-method BaseUnit [base-unit ^java.io.Writer w]
+(defmethod print-method BaseUnit [^BaseUnit base-unit ^java.io.Writer w]
   (.write w (pr-str (.sym base-unit))))
 
 (defrecord Quantity [magnitude exponents])
@@ -20,9 +22,24 @@
         (number? x)
         (Quantity. x {})
 
+        (map? x)
+        (Quantity. 1 x)
+
         ))
 
-(defn simplify [q])
+(defn simplify [^Quantity q]
+  (if (every? zero? (vals (.exponents q)))
+    (.magnitude q)
+    (->> [[(.magnitude q)]
+          (->> (.exponents q)
+               (filter (comp #{1} second))
+               (map first))
+          (some->> (.exponents q)
+                   (remove (comp #{0 1} second))
+                   (into {})
+                   not-empty
+                   vector)]
+         (into [] cat))))
 
 (defn mult [x y])
 (defn div [x y])
