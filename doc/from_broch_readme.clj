@@ -6,10 +6,10 @@
   {:nextjournal.clerk/toc true}
   (:refer-clojure :exclude [* / + -])
   (:require
-   [nextjournal.clerk :as clerk]
-   [teodorlu.munit.convert :as convert]
-   [teodorlu.munit.si :refer [m]]
-   [teodorlu.munit.units :refer [*]]))
+   [munit.convert :as convert]
+   [munit.si :refer [m]]
+   [munit.units :refer [*]]
+   [nextjournal.clerk :as clerk]))
 
 ;; We exclude Clojure's artithmetic operators, since we're using our own.
 

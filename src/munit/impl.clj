@@ -1,4 +1,4 @@
-(ns teodorlu.munit.impl
+(ns munit.impl
   "Boilerplate for working with units. Do not use directly."
   ;; (:refer-clojure :exclude [type])
   )
@@ -17,12 +17,12 @@
         (Quantity. 1 {x 1})))
 
 (comment
-  (instance? teodorlu.munit.impl.BaseUnit teodorlu.munit.si/m)
+  (instance? munit.impl.BaseUnit munit.si/m)
 
-  (= BaseUnit (type teodorlu.munit.si/m))
+  (= BaseUnit (type munit.si/m))
 
   ;; SI needs to be reloaded every time records are changed.
-  (require 'teodorlu.munit.si :reload)
+  (require 'munit.si :reload)
   )
 
 (defn simplify [q])

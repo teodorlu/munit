@@ -1,4 +1,4 @@
-(ns teodorlu.munit.units
+(ns munit.units
   "Tools for making unit systems.
 
   Units give you arithmethic on quanity. A quanitity has a size and a unit. The
@@ -27,7 +27,7 @@
   You can contruct any derived unit yourself:
     (def km (u/* 1000 si/m))"
   (:refer-clojure :exclude [* / + -])
-  (:require [teodorlu.munit.impl :as impl]))
+  (:require [munit.impl :as impl]))
 
 (defn define-system [{:keys [bases]}]
   {:bases (into (sorted-set) bases)})
@@ -55,7 +55,7 @@
 ;; but let's not start there.
 
 (defn * [& args]
-  (reduce teodorlu.munit.impl/mult
+  (reduce munit.impl/mult
           1
           args))
 (defn / [& args])
@@ -63,4 +63,4 @@
 (defn - [& args])
 
 (defn simplify [q]
-  (teodorlu.munit.impl/simplify q))
+  (munit.impl/simplify q))
