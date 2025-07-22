@@ -15,8 +15,16 @@
 (when munit.runtime/dev?
   (require 'munit.si :reload))
 
+(def one (Quantity. 1 {}))
+(def zero (Quantity. 0 {}))
+
+(declare mult)
+
 (defn coerce [x]
-  (cond (instance? BaseUnit x)
+  (cond (instance? Quantity x)
+        x
+
+        (instance? BaseUnit x)
         (Quantity. 1 {x 1})
 
         (number? x)
@@ -25,7 +33,16 @@
         (map? x)
         (Quantity. 1 x)
 
-        ))
+        (vector? x)
+        (reduce mult
+                one
+                (map coerce x))))
+
+(def remove-zero-exponents #(into {} (remove (comp clojure.core/zero? second) %)))
+
+(defn canonicalize ^Quantity [^Quantity q]
+  (Quantity. (.magnitude q)
+             (remove-zero-exponents (.exponents q))))
 
 (defn simplify [^Quantity q]
   (if (every? zero? (vals (.exponents q)))
@@ -41,7 +58,40 @@
                    vector)]
          (into [] cat))))
 
-(defn mult [x y])
-(defn div [x y])
-(defn add [x y])
-(defn sub [x y])
+(defn mult [^Quantity x ^Quantity y]
+  (canonicalize
+   (Quantity. (* (.magnitude x)
+                 (.magnitude y))
+              (merge-with +
+                          (.exponents x)
+                          (.exponents y)))))
+
+(defn div [^Quantity x ^Quantity y]
+  (canonicalize
+   (Quantity. (/ (.magnitude x)
+                 (.magnitude y))
+              (merge-with +
+                          (.exponents x)
+                          (into {}
+                                (map (fn [[k v]]
+                                       [k (- v)]))
+                                (.exponents y))))))
+
+(defn same-unit? [^Quantity x ^Quantity y]
+  (= (.exponents (canonicalize x))
+     (.exponents (canonicalize y))))
+
+
+(defn add [^Quantity x ^Quantity y]
+  (when-not (same-unit? x y)
+    (throw (ex-info "Cannot add quantities of different units"
+                    {:x x :y y})))
+  (Quantity. (+ (.magnitude x) (.magnitude y))
+             (.exponents x)))
+
+(defn sub [^Quantity x ^Quantity y]
+  (when-not (same-unit? x y)
+    (throw (ex-info "Cannot subtract quantities of different units"
+                    {:x x :y y})))
+  (Quantity. (- (.magnitude x) (.magnitude y))
+             (.exponents x)))
