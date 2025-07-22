@@ -1,28 +1,33 @@
 (ns teodorlu.munit.impl
   "Boilerplate for working with units. Do not use directly."
-  (:refer-clojure :exclude [type]))
+  ;; (:refer-clojure :exclude [type])
+  )
 
 (ns-unmap *ns* 'mult)
 
+(defrecord BaseUnit [system sym])
+
+(defmethod print-method BaseUnit [base-unit ^java.io.Writer w]
+  (.write w (pr-str (.sym base-unit))))
+
+(defrecord Quantity [magnitude exponents])
+
+(defn coerce [x]
+  (cond (instance? BaseUnit x)
+        (Quantity. 1 {x 1})))
+
+(comment
+  (instance? teodorlu.munit.impl.BaseUnit teodorlu.munit.si/m)
+
+  (= BaseUnit (type teodorlu.munit.si/m))
+
+  ;; SI needs to be reloaded every time records are changed.
+  (require 'teodorlu.munit.si :reload)
+  )
+
 (defn simplify [q])
 
-(defn type
-  [x]
-  (cond (number? x) :number
-        (vector? x) :vector
-        (map? x) :map
-        :else (throw (ex-info "Unsupported operand type"
-                              {:x x
-                               :type-of-x (type x)}))))
-
-(defn types [x y]
-  [(type x) (type y)])
-
-(defmulti mult types)
-
-(defmethod mult [:number :number]
-  [x y]
-  (* x y))
+(defn mult [x y])
 
 ;; ;; Multiply
 ;; (defn mult-num-num [n n])

@@ -27,20 +27,10 @@
   You can contruct any derived unit yourself:
     (def km (u/* 1000 si/m))"
   (:refer-clojure :exclude [* / + -])
-  (:require [teodorlu.munit.impl]))
+  (:require [teodorlu.munit.impl :as impl]))
 
 (defn define-system [{:keys [bases]}]
   {:bases (into (sorted-set) bases)})
-
-(defrecord BaseUnit [system sym])
-
-;; Tror jeg trenger denne for å unngå at det *eksploderer* i kombinasjoner av ting.
-;; (defrecord WithUnit [magnitude exponents])
-;; exponents er et map fra BaseUnit til eksponent.
-;; kan evt kalle den Quantity.
-
-(defmethod print-method BaseUnit [base-unit ^java.io.Writer w]
-  (.write w (pr-str (.sym base-unit))))
 
 (defn base [system-var unit-sym]
   (when-not (and (var? system-var)
@@ -55,7 +45,7 @@
     (throw (ex-info "The bases of the unit system must contain the unit"
                     {:system-var system-var
                      :unit-sym unit-sym})))
-  (BaseUnit. system-var unit-sym))
+  (impl/->BaseUnit system-var unit-sym))
 
 (defn unit [q] #_todo)
 (defn magnitude [q] #_todo)

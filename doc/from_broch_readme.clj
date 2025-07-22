@@ -3,6 +3,7 @@
 ;; Intended to be viewed with Clerk.
 
 (ns from-broch-readme
+  {:nextjournal.clerk/toc true}
   (:refer-clojure :exclude [* / + -])
   (:require
    [nextjournal.clerk :as clerk]
@@ -12,20 +13,19 @@
 
 ;; We exclude Clojure's artithmetic operators, since we're using our own.
 
+;; ## Ten meters
+
+^{:nextjournal.clerk/visibility {:code :hide}}
 (clerk/caption
  "with Broch"
  (clerk/code '(b/meters 10)))
 
-(* 1 1)
+;; To make this work, I need:
+;; - multiplication - 10 * meters
+;; - coercion - coerce 10 and BaseUnit to Quantity
+;; - simplification - to present the result.
 
-;; does not yet work:
-;; (* 10 m)
-;;
-;; conclusion: I need a canonical Quantity type, otherwise I'm stuck in an
-;; n*m-exposion of representations.
-;;
-;; canonicalize: anything -> Quantity
-;;   (defrecord Quantity [magnitude exponents])
-;;     exponents is an empty map for unitless numbers.
-;;
-;; simplify: anything -> number, base unit, vector or map
+;; Requirements:
+;; - coerce BaseUnit to Quanity
+;; - coerce number to Quanitty
+;; - Simplify Quantity to vector of multiplication parts

@@ -4,7 +4,8 @@
   See:
   - https://en.wikipedia.org/wiki/SI_base_unit
   - https://en.wikipedia.org/wiki/SI_derived_unit"
-  (:require [teodorlu.munit.units :as units]))
+  (:require [teodorlu.munit.impl :as impl]
+            [teodorlu.munit.units :as units]))
 
 (def si
   (units/define-system
