@@ -2,8 +2,9 @@
   (:refer-clojure :exclude [* / + -])
   (:require [clojure.string :as str]
             [clojure.test :refer [deftest is]]
+            [munit.prefix :refer [k]]
             [munit.si :refer [m s]]
-            [munit.units :refer [* / + -]]))
+            [munit.units :refer [* / + - measure-in]]))
 
 (deftest *-test
   (is (= 1 (*)))
@@ -46,4 +47,11 @@
        "different units"))
   (is (= [8 m]
          (- [10 m] [1 m] [1 m])))
+  )
+
+(def km (* k m))
+
+(deftest measure-in-test
+  (is (= 1 (measure-in m m)))
+  (is (= 1000 (measure-in km m)))
   )

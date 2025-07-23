@@ -4,8 +4,7 @@
   See:
   - https://en.wikipedia.org/wiki/SI_base_unit
   - https://en.wikipedia.org/wiki/SI_derived_unit"
-  (:require [munit.impl :as impl]
-            [munit.units :as units]))
+  (:require [munit.units :as units]))
 
 (def si
   (units/define-system
@@ -18,21 +17,6 @@
 (def K (units/base #'si 'K))
 (def mol (units/base #'si 'mol))
 (def cd (units/base #'si 'cd))
-
-;; Symbolic representation of base units + reference to a system can solve for deserialization.
-;;
-;;   (defn load-symbolic [symbolic]
-;;     (units/load-symbolic #'si symbolic))
-;;
-;; but let's not start there.
-
-(comment
-  ;; HOW TO IMPLEMENT?
-  ;;
-  ;; A unit needs to hold the following:
-  ;; - its own symbol (for lookup / printing)
-  ;; - A reference to the unit system (for computation)
-  )
 
 (comment
   ;; SI derived units

@@ -84,3 +84,14 @@
    (simplify (reduce sub
                      (sub (coerce x) (coerce y))
                      (map coerce args)))))
+
+(defn measure-in
+  "Measure quantity in target unit, as a plain number (or crash)"
+  [quantity target-unit]
+  (let [converted (/ quantity target-unit)]
+    (when-not (number? converted)
+      (throw (ex-info "Cannot convert to target unit"
+                      {:quantity quantity
+                       :target-unit target-unit
+                       :leftover converted})))
+    converted))
