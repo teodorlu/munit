@@ -34,9 +34,10 @@
         (Quantity. 1 x)
 
         (vector? x)
-        (reduce mult
-                one
-                (map coerce x))))
+        (reduce mult one (map coerce x))
+
+        :else
+        (throw (ex-info "Cannot coerce value to quantity" {:value x}))))
 
 (def remove-zero-exponents #(into {} (remove (comp clojure.core/zero? second) %)))
 
@@ -45,8 +46,15 @@
              (remove-zero-exponents (.exponents q))))
 
 (defn simplify [^Quantity q]
-  (if (every? zero? (vals (.exponents q)))
+  (cond
+    (every? zero? (vals (.exponents q)))
     (.magnitude q)
+
+    (and (= 1 (.magnitude q))
+         (every? #(not= 1 %) (vals (.exponents q))))
+    (.exponents q)
+
+    :else
     (->> [[(.magnitude q)]
           (->> (.exponents q)
                (filter (comp #{1} second))
@@ -59,28 +67,25 @@
          (into [] cat))))
 
 (defn mult [^Quantity x ^Quantity y]
-  (canonicalize
-   (Quantity. (* (.magnitude x)
-                 (.magnitude y))
-              (merge-with +
-                          (.exponents x)
-                          (.exponents y)))))
+  (Quantity. (* (.magnitude x) (.magnitude y))
+             (merge-with + (.exponents x) (.exponents y))))
+
+(defn negate-map-vals [m]
+  (into {}
+        (map (fn [[k v]] [k (- v)]))
+        m))
+
+(defn invert [^Quantity x]
+  (Quantity. (/ (.magnitude x))
+             (negate-map-vals (.exponents x))))
 
 (defn div [^Quantity x ^Quantity y]
-  (canonicalize
-   (Quantity. (/ (.magnitude x)
-                 (.magnitude y))
-              (merge-with +
-                          (.exponents x)
-                          (into {}
-                                (map (fn [[k v]]
-                                       [k (- v)]))
-                                (.exponents y))))))
+  (Quantity. (/ (.magnitude x) (.magnitude y))
+             (merge-with + (.exponents x) (negate-map-vals (.exponents y)))))
 
 (defn same-unit? [^Quantity x ^Quantity y]
   (= (.exponents (canonicalize x))
      (.exponents (canonicalize y))))
-
 
 (defn add [^Quantity x ^Quantity y]
   (when-not (same-unit? x y)
@@ -88,6 +93,9 @@
                     {:x x :y y})))
   (Quantity. (+ (.magnitude x) (.magnitude y))
              (.exponents x)))
+
+(defn negate [^Quantity x]
+  (Quantity. (- (.magnitude x)) (.exponents x)))
 
 (defn sub [^Quantity x ^Quantity y]
   (when-not (same-unit? x y)

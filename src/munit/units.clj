@@ -27,7 +27,10 @@
   You can contruct any derived unit yourself:
     (def km (u/* 1000 si/m))"
   (:refer-clojure :exclude [* / + -])
-  (:require [munit.impl :as impl]))
+  (:require [munit.impl :as impl
+             :refer [coerce simplify
+                     invert negate
+                     mult div add sub]]))
 
 (defn define-system [{:keys [bases]}]
   {:bases (into (sorted-set) bases)})
@@ -47,20 +50,37 @@
                      :unit-sym unit-sym})))
   (impl/->BaseUnit system-var unit-sym))
 
-(defn unit [q] #_todo)
-(defn magnitude [q] #_todo)
+(defn *
+  ([] 1)
+  ([x] x)
+  ([x y] (simplify (mult (coerce x) (coerce y))))
+  ([x y & args]
+   (simplify (reduce mult
+                     (mult (coerce x) (coerce y))
+                     (map coerce args)))))
 
-;; Loading from symbolic serializing to symbolic can solve for storage
-;; (defn load-symbolic [system-var symbolic])
-;; but let's not start there.
+(defn /
+  ([x] (-> x coerce invert simplify))
+  ([x y] (simplify (div (coerce x)
+                        (coerce y))))
+  ([x y & args]
+   (simplify (reduce div
+                     (div (coerce x) (coerce y))
+                     (map coerce args)))))
 
-(defn * [& args]
-  (reduce munit.impl/mult
-          1
-          args))
-(defn / [& args])
-(defn + [& args])
-(defn - [& args])
+(defn +
+  ([] 0)
+  ([x] x)
+  ([x y] (simplify (add (coerce x) (coerce y))))
+  ([x y & args]
+   (simplify (reduce add
+                     (add (coerce x) (coerce y))
+                     (map coerce args)))))
 
-(defn simplify [q]
-  (munit.impl/simplify q))
+(defn -
+  ([x] (-> x coerce negate simplify))
+  ([x y] (simplify (sub (coerce x) (coerce y))))
+  ([x y & args]
+   (simplify (reduce sub
+                     (sub (coerce x) (coerce y))
+                     (map coerce args)))))

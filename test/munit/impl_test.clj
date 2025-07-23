@@ -2,8 +2,9 @@
   (:require [clojure.test :refer [deftest is testing]]
             [munit.impl :as impl :refer [->Quantity
                                          coerce simplify same-unit?
-                                         zero mult
-                                         div add sub]]
+                                         zero
+                                         invert negate
+                                         mult div add sub]]
             [munit.si :as si]))
 
 (deftest simplify-test
@@ -15,9 +16,12 @@
   (testing "to vector of base units"
     (is (= [1 si/m]
            (simplify (->Quantity 1 {si/m 1})))))
+  (testing "to map"
+    (is (= {si/s -1}
+           (simplify (->Quantity 1 {si/s -1})))))
   (testing "to vector containing map"
-    (is (= [1 {si/m 2}]
-           (simplify (->Quantity 1 {si/m 2})))))
+    (is (= [4 {si/m 2}]
+           (simplify (->Quantity 4 {si/m 2})))))
   (testing "to vector of base units, then map"
     (is (= [9.81 si/m {si/s -2}]
            (simplify (->Quantity 9.81 {si/m 1 si/s -2}))))))
@@ -54,12 +58,14 @@
     (is (= [3 si/m {si/s -1}]
            (coerce->f->simplify mult [3 si/m] {si/s -1})))))
 
-(deftest same-unit?-test
-  (is (same-unit? (coerce si/m) (coerce si/m)))
-  (is (same-unit? (coerce si/m)
-                  (mult (coerce 42) (coerce si/m))))
-  (is (not (same-unit? (coerce si/m)
-                       (mult (coerce si/m) (coerce si/m))))))
+(deftest invert-test
+  (testing "2^-1"
+    (is (= 1/2
+           (coerce->f->simplify invert 2))))
+  (testing "s^-1"
+    ))
+
+#_(coerce->f->simplify invert si/s)
 
 (deftest div-test
   (testing "6/2"
@@ -69,11 +75,22 @@
     (is (= [3 si/m {si/s -1}]
            (coerce->f->simplify div [3 si/m] si/s)))))
 
+(deftest same-unit?-test
+  (is (same-unit? (coerce si/m) (coerce si/m)))
+  (is (same-unit? (coerce si/m)
+                  (mult (coerce 42) (coerce si/m))))
+  (is (not (same-unit? (coerce si/m)
+                       (mult (coerce si/m) (coerce si/m))))))
+
 (deftest add-test
   (is (= 3
          (coerce->f->simplify add 1 2)))
   (is (= [3 si/m]
          (coerce->f->simplify add [1 si/m] [2 si/m]))))
+
+(deftest negate-test
+  (is (= -4
+         (coerce->f->simplify negate 4))))
 
 (deftest sub-test
   (is (= 1
