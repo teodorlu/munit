@@ -3,4 +3,8 @@
  {:dev
   {:extra-paths ["dev" "test" "docs"]
    :extra-deps {lambdaisland/kaocha {:mvn/version "1.91.1392"}
-                io.github.nextjournal/clerk {:mvn/version "0.18.1142"}}}}}
+                io.github.nextjournal/clerk {:mvn/version "0.18.1142"}
+                no.anteo/broch {:mvn/version "2024.12.18"}}}
+  :test
+  {:extra-paths ["test" "docs"]
+   :extra-deps {lambdaisland/kaocha {:mvn/version "1.91.1392"}}}}}
