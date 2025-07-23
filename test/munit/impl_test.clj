@@ -4,7 +4,7 @@
                                          coerce simplify same-unit?
                                          zero
                                          invert negate
-                                         mult div add sub]]
+                                         mul div add sub]]
             [munit.si :as si]))
 
 (deftest simplify-test
@@ -50,13 +50,13 @@
 (deftest mult-test
   (testing "2*3"
     (is (= 6
-           (coerce->f->simplify mult 2 3))))
+           (coerce->f->simplify mul 2 3))))
   (testing "2m*3m"
     (is (= [6 {si/m 2}]
-           (coerce->f->simplify mult [2 si/m] [3 si/m]))))
+           (coerce->f->simplify mul [2 si/m] [3 si/m]))))
   (testing "3 m/s"
     (is (= [3 si/m {si/s -1}]
-           (coerce->f->simplify mult [3 si/m] {si/s -1})))))
+           (coerce->f->simplify mul [3 si/m] {si/s -1})))))
 
 (deftest invert-test
   (testing "2^-1"
@@ -78,9 +78,9 @@
 (deftest same-unit?-test
   (is (same-unit? (coerce si/m) (coerce si/m)))
   (is (same-unit? (coerce si/m)
-                  (mult (coerce 42) (coerce si/m))))
+                  (mul (coerce 42) (coerce si/m))))
   (is (not (same-unit? (coerce si/m)
-                       (mult (coerce si/m) (coerce si/m))))))
+                       (mul (coerce si/m) (coerce si/m))))))
 
 (deftest add-test
   (is (= 3

@@ -18,7 +18,7 @@
 (def one (Quantity. 1 {}))
 (def zero (Quantity. 0 {}))
 
-(declare mult)
+(declare mul)
 
 (defn coerce [x]
   (cond (instance? Quantity x)
@@ -34,7 +34,7 @@
         (Quantity. 1 x)
 
         (vector? x)
-        (reduce mult one (map coerce x))
+        (reduce mul one (map coerce x))
 
         :else
         (throw (ex-info "Cannot coerce value to quantity" {:value x}))))
@@ -66,7 +66,7 @@
                    vector)]
          (into [] cat))))
 
-(defn mult [^Quantity x ^Quantity y]
+(defn mul [^Quantity x ^Quantity y]
   (Quantity. (* (.magnitude x) (.magnitude y))
              (merge-with + (.exponents x) (.exponents y))))
 

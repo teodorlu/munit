@@ -30,7 +30,7 @@
   (:require [munit.impl :as impl
              :refer [coerce simplify
                      invert negate
-                     mult div add sub]]))
+                     mul div add sub]]))
 
 (defn define-system [{:keys [bases]}]
   {:bases (into (sorted-set) bases)})
@@ -53,10 +53,10 @@
 (defn *
   ([] 1)
   ([x] x)
-  ([x y] (simplify (mult (coerce x) (coerce y))))
+  ([x y] (simplify (mul (coerce x) (coerce y))))
   ([x y & args]
-   (simplify (reduce mult
-                     (mult (coerce x) (coerce y))
+   (simplify (reduce mul
+                     (mul (coerce x) (coerce y))
                      (map coerce args)))))
 
 (defn /
