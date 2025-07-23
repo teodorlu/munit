@@ -11,8 +11,9 @@
 
 (defrecord Quantity [magnitude exponents])
 
-;; Reload units after redefining records.
-(when munit.runtime/dev?
+;; Reload SI units after redefining records.
+(when (and munit.runtime/dev?
+           (contains? (loaded-libs) 'munit.si))
   (require 'munit.si :reload))
 
 (def one (Quantity. 1 {}))
