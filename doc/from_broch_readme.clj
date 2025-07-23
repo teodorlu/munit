@@ -5,16 +5,20 @@
   (:refer-clojure :exclude [* / + -])
   (:require
    [broch.core :as b]
-   [munit.convert :as convert]
+   [munit.convert :refer [yard]]
    [munit.si :refer [m]]
-   [munit.units :refer [*]]
+   [munit.units :refer [* measure-in]]
    [nextjournal.clerk :as clerk]))
 
-;; ## Ten meters
-;; ### with broch
+{::clerk/visibility {:code :hide}}
 
-(b/meters 10)
+;; ## Broch
+(clerk/example
+ (b/meters 10)
+ (b/feet (b/meters 10)))
 
-;; ### with munit
+;; ## μnit
 
-(* 10 m)
+(clerk/example
+ (* 10 m)
+ (measure-in (* 10 m) yard))
