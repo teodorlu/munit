@@ -1,5 +1,7 @@
 (ns munit.impl-test
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [clojure.pprint]
+            [clojure.string :as str]
+            [clojure.test :refer [deftest is testing]]
             [munit.impl :as impl :refer [->Quantity
                                          coerce simplify same-unit?
                                          zero
@@ -97,3 +99,10 @@
          (coerce->f->simplify sub 3 2)))
   (is (= [1 si/m]
          (coerce->f->simplify sub [3 si/m] [2 si/m]))))
+
+(defn pprint-str [x] (str/trim (with-out-str (clojure.pprint/pprint x))))
+
+(deftest serialize
+  (is (= "[1 m]" (pr-str [1 si/m])))
+  (is (= "[1 m]" (pprint-str [1 si/m])))
+  )

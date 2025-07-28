@@ -1,6 +1,7 @@
 (ns munit.impl
   "Boilerplate for working with units. Do not use directly."
-  (:require munit.runtime))
+  (:require clojure.pprint
+            munit.runtime))
 
 (set! *warn-on-reflection* true)
 
@@ -8,6 +9,9 @@
 
 (defmethod print-method BaseUnit [^BaseUnit base-unit ^java.io.Writer w]
   (.write w (pr-str (.sym base-unit))))
+
+(defmethod clojure.pprint/simple-dispatch BaseUnit [^BaseUnit base-unit]
+  (clojure.pprint/write-out (.sym base-unit)))
 
 (defrecord Quantity [magnitude exponents])
 
