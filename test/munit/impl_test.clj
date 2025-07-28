@@ -62,10 +62,10 @@
   (testing "2^-1"
     (is (= 1/2
            (coerce->f->simplify invert 2))))
-  (testing "s^-1"
-    ))
 
-#_(coerce->f->simplify invert si/s)
+  (testing "s^-1"
+    (is (= {si/s -1}
+           (coerce->f->simplify invert si/s)))))
 
 (deftest div-test
   (testing "6/2"
