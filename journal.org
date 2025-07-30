@@ -1,0 +1,10 @@
+* 2025-07-30
+** Hva om vi dropper defrecord?
+Vi kan si at symboler (eller nøkkelord) representerer base-enheter i stedet - og slippe et helt subsystem-lag.
+
+Da trenger vi en =magnitude=- og en =exponents=-funksjon som kjenner hver av datatypene:
+
+- symbol :: base-enhet
+- map :: eksponenter
+- vektor :: implisitt multiplikasjon
+- tall :: enhetsløs størrelse.
