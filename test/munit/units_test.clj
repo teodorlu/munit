@@ -23,29 +23,29 @@
   (is (= {s -2} (/ 1 s s)))
   )
 
+(defmacro expect-message [& body]
+  `(::the-ex-message
+    (try
+      ~@body
+      (catch Exception e#
+        {::the-ex-message
+         (ex-message e#)}))))
+
 (deftest +-test
   (is (= 0 (+)))
   (is (= 7 (+ 7)))
   (is (= 2 (+ 1 1)))
   (is (= [2 m] (+ m m)))
-  (is (str/includes?
-       (try
-         (+ m s)
-         (catch Exception e
-           (ex-message e)))
-       "different units"))
+  (is (str/includes? (expect-message (+ m s))
+                     "different units"))
   (is (= [3 m] (+ m m m)))
   )
 
 (deftest --test
   (is (= -1 (- 1)))
   (is (= [-2 m] (- [3 m] [5 m])))
-  (is (str/includes?
-       (try
-         (- [1 m] [5 s])
-         (catch Exception e
-           (ex-message e)))
-       "different units"))
+  (is (str/includes? (expect-message (- [1 m] [5 s]))
+                     "different units"))
   (is (= [8 m]
          (- [10 m] [1 m] [1 m])))
   )
