@@ -1,10 +1,12 @@
 (ns munit.units-test
-  (:refer-clojure :exclude [* / + -])
+  (:refer-clojure :exclude [+ - / *])
   (:require [clojure.string :as str]
             [clojure.test :refer [deftest is]]
             [munit.prefix :refer [k]]
-            [munit.si :refer [m s]]
             [munit.units :refer [* / + - measure-in]]))
+
+(def m 'm)
+(def s 's)
 
 (deftest *-test
   (is (= 1 (*)))
@@ -41,6 +43,7 @@
   (is (= [3 m] (+ m m m)))
   )
 
+
 (deftest --test
   (is (= -1 (- 1)))
   (is (= [-2 m] (- [3 m] [5 m])))
@@ -55,4 +58,7 @@
 (deftest measure-in-test
   (is (= 1 (measure-in m m)))
   (is (= 1000 (measure-in km m)))
+  (is (= 1/1000 (measure-in m km)))
+  (is (str/includes? (expect-message (measure-in [5 km] s))
+                     "Cannot convert"))
   )

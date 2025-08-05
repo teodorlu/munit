@@ -6,17 +6,13 @@
   - https://en.wikipedia.org/wiki/SI_derived_unit"
   (:require [munit.units :as units]))
 
-(def si
-  (units/define-system
-    {:bases '[s m kg A K mol cd]}))
-
-(def s (units/base #'si 's))
-(def m (units/base #'si 'm))
-(def kg (units/base #'si 'kg))
-(def A (units/base #'si 'A))
-(def K (units/base #'si 'K))
-(def mol (units/base #'si 'mol))
-(def cd (units/base #'si 'cd))
+(def s 's)
+(def m 'm)
+(def kg 'kg)
+(def A 'A)
+(def K 'K)
+(def mol 'mol)
+(def cd 'cd)
 
 (comment
   ;; SI derived units

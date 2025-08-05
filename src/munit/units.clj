@@ -1,8 +1,8 @@
 (ns munit.units
-  "Tools for making unit systems.
+  "Arithmetic on numbers with unit
 
-  Units give you arithmethic on quanity. A quanitity has a size and a unit. The
-  SI unit system[1] is one such system, but you're free to create others.
+  Units give you arithmethic on quanity. A quanitity has a magnitude and a unit.
+  The SI unit system[1] is one such system, but you're free to create others.
 
   [1]: https://en.wikipedia.org/wiki/International_System_of_Units
 
@@ -27,71 +27,39 @@
   You can contruct any derived unit yourself:
     (def km (u/* 1000 si/m))"
   (:refer-clojure :exclude [* / + -])
-  (:require [munit.impl :as impl
-             :refer [coerce simplify
-                     invert negate
-                     mul div add sub]]))
-
-(defn define-system [{:keys [bases]}]
-  {:bases (into (sorted-set) bases)})
-
-(defn base [system-var unit-sym]
-  (when-not (and (var? system-var)
-                 (map? (deref system-var)))
-    (throw (ex-info "system-var must be a var pointing to a unit system"
-                    {:system-var system-var})))
-  (when-not (symbol? unit-sym)
-    (throw (ex-info "unit-sym must be a symbol"
-                    {:unit-sym unit-sym})))
-  (when-not (contains? (:bases (deref system-var))
-                       unit-sym)
-    (throw (ex-info "The bases of the unit system must contain the unit"
-                    {:system-var system-var
-                     :unit-sym unit-sym})))
-  (impl/->BaseUnit system-var unit-sym))
+  (:require [munit.impl :refer [simplify invert div add negate sub]]))
 
 (defn *
   ([] 1)
   ([x] x)
-  ([x y] (simplify (mul (coerce x) (coerce y))))
+  ([x y] (simplify [x y]))
   ([x y & args]
-   (simplify (reduce mul
-                     (mul (coerce x) (coerce y))
-                     (map coerce args)))))
+   (simplify [x y (vec args)])))
 
 (defn /
-  ([x] (-> x coerce invert simplify))
-  ([x y] (simplify (div (coerce x)
-                        (coerce y))))
+  ([x] (invert x))
+  ([x y] (div x y))
   ([x y & args]
-   (simplify (reduce div
-                     (div (coerce x) (coerce y))
-                     (map coerce args)))))
+   (reduce div (div x y) args)))
 
 (defn +
   ([] 0)
   ([x] x)
-  ([x y] (simplify (add (coerce x) (coerce y))))
+  ([x y] (add x y))
   ([x y & args]
-   (simplify (reduce add
-                     (add (coerce x) (coerce y))
-                     (map coerce args)))))
+   (reduce add (add x y) args)))
 
 (defn -
-  ([x] (-> x coerce negate simplify))
-  ([x y] (simplify (sub (coerce x) (coerce y))))
+  ([x] (negate x))
+  ([x y] (sub x y))
   ([x y & args]
-   (simplify (reduce sub
-                     (sub (coerce x) (coerce y))
-                     (map coerce args)))))
+   (reduce sub (sub x y) args)))
 
-(defn measure-in
-  "Measure quantity in target unit, as a plain number (or crash)"
-  [quantity target-unit]
-  (let [converted (/ quantity target-unit)]
+(defn measure-in [x target-unit]
+  (let [converted (/ x target-unit)]
     (when-not (number? converted)
       (throw (ex-info "Cannot convert to target unit"
-                      {:quantity quantity
+                      {:quantity x
                        :target-unit target-unit
                        :leftover converted})))
     converted))
