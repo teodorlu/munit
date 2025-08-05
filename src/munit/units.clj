@@ -18,7 +18,7 @@
 
   Units are represented as numbers, vectors or maps. Numbers are unitless.
     4 ; four
-  Vectors imply multipliaction of terms.
+  Vectors imply multiplication of terms.
     [4 si/m] ; four meters
   Maps are base unit exponents.
     {si/m 2} ; square meters
@@ -38,7 +38,7 @@
 (defn base [system-var unit-sym]
   (when-not (and (var? system-var)
                  (map? (deref system-var)))
-    (throw (ex-info "system-var must be a var poting to a unit system"
+    (throw (ex-info "system-var must be a var pointing to a unit system"
                     {:system-var system-var})))
   (when-not (symbol? unit-sym)
     (throw (ex-info "unit-sym must be a symbol"
