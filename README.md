@@ -31,3 +31,9 @@ Mathcad introduced me to the idea, and [Clerk] and Emmy showed all that was poss
 μnit would probably be nicer if it was part of Emmy, but that requires some more work (I think).
 
 [Clerk]: https://github.com/nextjournal/clerk
+
+After using μnit briefly, I also found I wanted tables of numbers where the rows had units.
+Is that possible with [Tablecloth]?
+For units to work, we need to store a unit along with each column, and hook into the column operations (+, -, *, /).
+
+[Tablecloth]: https://github.com/scicloj/tablecloth
