@@ -18,7 +18,7 @@
 
 - Gerald Sussman for unit and unit system code scmutils.
 - Sam Ritchie for help understanding Sussman's intent, and his and Colin Smith's work on [Emmy] (previously sicmutils).
-- Anteos for [broch], a nice unit library.
+- Anteo AS for [broch], a nice unit library.
 
 [scmutils]: https://groups.csail.mit.edu/mac/users/gjs/6946/refman.txt
 [Emmy]: https://github.com/mentat-collective/emmy
