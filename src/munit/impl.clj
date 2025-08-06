@@ -2,9 +2,6 @@
   "Unit arithmetic implementation details, do not use directly."
   (:refer-clojure :exclude [+ - * /]))
 
-(defn mul-units [u1 u2]
-  (merge-with clojure.core/+ u1 u2))
-
 (defn magnitude [x]
   (cond (number? x)
         x
@@ -23,6 +20,9 @@
               (dissoc k)))
           m
           m))
+
+(defn mul-units [u1 u2]
+  (merge-with clojure.core/+ u1 u2))
 
 (defn unit [x]
   (-> (cond (number? x)
