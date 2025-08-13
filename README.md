@@ -1,7 +1,70 @@
 # μnit
 
-*A small library for arithmetic on numbers with units.*
-(Pronounced "munit")
+*A small library for arithmetic on numbers with units.* Pronounced "munit". If
+you don't like the greek μ for "very small" ("micro"), think "magnitude 'n
+unit".
+
+Status: pre-alpha, expect breaking changes.
+
+## Installation
+
+Currently only by Git SHA.
+
+```clojure
+io.github.teodorlu/munit {:git/sha "..."}
+```
+
+With Neil,
+
+    neil dep add io.github.teodorlu/munit
+
+## Usage quickstart
+
+Munit represents numbers with units as Clojure data.
+
+| Example             | Interpretation                         |
+|---------------------|----------------------------------------|
+| `44`                | Unitless quantity                      |
+| `'m`                | One meter                              |
+| `{'m 2}`            | One square meter                       |
+| `[44 'm]`           | 44 meters                              |
+| `[44 {'m 2}]`       | 44 square meters                       |
+| `[9.81 'm {'s -2}]` | 9.81 kilogram-meters per square second |
+
+Here's a small example:
+
+```clojure
+(ns your-calculation
+  (:refer-clojure :exclude [* / + -])
+  (:require [munit.prefix :refer [k M]]
+            [munit.si :refer [kg m s]]
+            [munit.units :refer [* / + - measure-in]]))
+
+(def g "gravitational accelleration at the earth's surface"
+  [9.81 m {s -2}])
+
+;; Gravitational force of 200 kg
+(* [200 kg] g)
+;; => [1962.0 kg m {s -2}]
+
+;; Let's measure that in kilo-newtons.
+(def N [kg m {s -2}])
+(def kN [k N])
+
+(measure-in (* [200 kg] g) kN)
+;; => 1.962
+```
+
+Note:
+
+- `*`, `/`, `+` and `-` are from `munit.units`, not `clojure.core`.
+- Base units like `m`, `kg` and `s` are just symbols - `munit.si` is pure
+  convenience
+
+A second example can be found in the presentation notes for the macroexpand-2
+lightning talk [The force, the notation and the limitation].
+
+[The force, the notation and the limitation]: https://play.teod.eu/the-force-the-notation-and-the-limitation/
 
 ## Design goals
 
