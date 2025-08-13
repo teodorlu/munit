@@ -22,14 +22,14 @@ With Neil,
 
 Munit represents numbers with units as Clojure data.
 
-| Example             | Interpretation                         |
-|---------------------|----------------------------------------|
-| `44`                | Unitless quantity                      |
-| `'m`                | One meter                              |
-| `{'m 2}`            | One square meter                       |
-| `[44 'm]`           | 44 meters                              |
-| `[44 {'m 2}]`       | 44 square meters                       |
-| `[9.81 'm {'s -2}]` | 9.81 kilogram-meters per square second |
+| Example             | Interpretation                |
+|---------------------|-------------------------------|
+| `44`                | Unitless quantity             |
+| `'m`                | One meter                     |
+| `{'m 2}`            | One square meter              |
+| `[44 'm]`           | 44 meters                     |
+| `[44 {'m 2}]`       | 44 square meters              |
+| `[9.81 'm {'s -2}]` | 9.81 meters per square second |
 
 Here's a small example:
 
