@@ -95,8 +95,8 @@ Mathcad introduced me to the idea, and [Clerk] and Emmy showed all that was poss
 
 [Clerk]: https://github.com/nextjournal/clerk
 
-After using μnit briefly, I also found I wanted tables of numbers where the rows had units.
+After using μnit briefly, I also found I wanted tables where columns had units.
 Is that possible with [Tablecloth]?
-For units to work, we need to store a unit along with each column, and hook into the column operations (+, -, *, /).
+For units to work, we need to store a unit along with each column, and hook Tablecloth's column operations (+, -, *, /).
 
 [Tablecloth]: https://github.com/scicloj/tablecloth
