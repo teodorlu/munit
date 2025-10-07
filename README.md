@@ -1,8 +1,11 @@
-# μnit
+# munit
 
-*A small library for arithmetic on numbers with units.* Pronounced "munit". If
-you don't like the greek μ for "very small" ("micro"), think "magnitude 'n
-unit".
+*The little library for computing with units in Clojure.*
+
+Pick your choice of mnemonic:
+
+- "small unit library":  "mu" is the greek letter μ, the metric prefix "micro", 10^-6
+- "magnitude 'n unit": remove some letters to get "munit".
 
 Status: pre-alpha, expect breaking changes.
 
