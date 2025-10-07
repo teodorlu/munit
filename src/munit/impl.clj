@@ -29,7 +29,7 @@
             {}
 
             (vector? x)
-            (reduce mul-units (map unit x))
+            (reduce mul-units {} (map unit x))
 
             (map? x)
             x

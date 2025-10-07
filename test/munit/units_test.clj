@@ -80,4 +80,8 @@
     (is (= {m 1} (unit [4 m])))
     (is (= {m 2} (unit [4 {m 2}]))))
 
+  (testing "sane monoidal zero"
+    (is (= 1 (magnitude [])))
+    (is (= {} (unit []))))
+
   )
