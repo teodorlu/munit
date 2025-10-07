@@ -1,9 +1,9 @@
 (ns munit.units-test
   (:refer-clojure :exclude [+ - / *])
   (:require [clojure.string :as str]
-            [clojure.test :refer [deftest is]]
+            [clojure.test :refer [deftest is testing]]
             [munit.prefix :refer [k]]
-            [munit.units :refer [* / + - measure-in]]))
+            [munit.units :refer [* / + - measure-in magnitude unit]]))
 
 (def m 'm)
 (def s 's)
@@ -61,4 +61,23 @@
   (is (= 1/1000 (measure-in m km)))
   (is (str/includes? (expect-message (measure-in [5 km] s))
                      "Cannot convert"))
+  )
+
+(deftest magnitude-n-unit ;; guess why it's called munit!?!
+
+  (testing "magnitude is the size of a quantity"
+    (is (= 4 (magnitude 4)))
+    (is (= 4 (magnitude [4 m])))
+    (is (= 4 (magnitude [4 {m 2}]))))
+
+  (testing "magnitude doesn't do unit conversion"
+    ;; For change of unit system, use munit.units/rebase.
+    (is (= 3000 (magnitude [3 k m])))
+    (is (= 3 (magnitude [3 'km]))))
+
+  (testing "unit is the exponent map of a quanity (always a map)"
+    (is (= {} (unit 4)))
+    (is (= {m 1} (unit [4 m])))
+    (is (= {m 2} (unit [4 {m 2}]))))
+
   )

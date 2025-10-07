@@ -63,3 +63,13 @@
                        :target-unit target-unit
                        :leftover converted})))
     converted))
+
+(defn magnitude
+  "The magnitude (number) of a quantity"
+  [x]
+  (munit.impl/magnitude x))
+
+(defn unit
+  "The unit (map from base unit to exponent) of a quantity"
+  [x]
+  (munit.impl/unit x))
