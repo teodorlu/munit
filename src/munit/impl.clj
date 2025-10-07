@@ -34,9 +34,22 @@
             (map? x)
             x
 
-            ;; Otherwise, assume a base unit.
+            ;; Technically, we could allow any comparable data as the base unit.
+            ;; We only need "keyable in map". Symbols and keywords were
+            ;; considered as options. For keywords, :si/m woule be kind of nice,
+            ;; no?
+            ;;
+            ;; Ultimately, the writing of [[munit.datomic]] informed this
+            ;; decision:
+            ;; - symbols print more naturally than keywords
+            ;; - and by picking *only symbols*, we can write a Datomic schema without ambiguity.
+            ;;
+            ;; In conclusion: base units are symbols.
+            (symbol? x)
+            {x 1}
+
             :else
-            {x 1})
+            (throw (ex-info "Cannot infer unit from number" {:number x})))
       (remove-vals zero?)))
 
 (defn simplify [x]
