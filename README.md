@@ -66,6 +66,22 @@ lightning talk [The force, the notation and the limitation].
 
 [The force, the notation and the limitation]: https://play.teod.eu/the-force-the-notation-and-the-limitation/
 
+## Datomic storage
+
+The `munit.datomic` namespace gives you some help if you want to store numbers
+with units in Datomic.
+
+```clojure
+  (munit.datomic/to-entity [5.0 m] double double)
+  ;; => {:munit/magnitude 5.0, :munit/unit #{{:munit/base-unit m, :munit/exponent 1.0}}}
+
+  (munit.datomic/from-entity {:munit/magnitude 5.0, :munit/unit #{{:munit/base-unit m, :munit/exponent 1.0}}})
+  ;; => [5.0 {m 1.0}]
+```
+
+You'll need to choose which numeric type from Datomic to represent quantity and
+base unit exponent.
+
 ## Design goals
 
 - Unit systems other than SI are supported.
