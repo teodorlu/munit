@@ -4,7 +4,7 @@
 
 Pick your mnemonic:
 
-- "small unit library":  "mu" is the greek letter μ, the metric prefix "micro", 10^-6
+- "small unit library": "mu" is the greek letter μ. μ denotes the metric prefix "micro", 10⁻⁶. Quite small!
 - "magnitude 'n unit": remove some letters to get "munit".
 
 Status: pre-alpha, expect breaking changes.
