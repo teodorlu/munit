@@ -2,7 +2,7 @@
 
 *The little library for computing with units in Clojure.*
 
-Pick your choice of mnemonic:
+Pick your mnemonic:
 
 - "small unit library":  "mu" is the greek letter μ, the metric prefix "micro", 10^-6
 - "magnitude 'n unit": remove some letters to get "munit".
