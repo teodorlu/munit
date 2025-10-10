@@ -3,7 +3,7 @@
   (:require [clojure.string :as str]
             [clojure.test :refer [deftest is testing]]
             [munit.prefix :refer [k]]
-            [munit.units :refer [* / + - measure-in magnitude unit]]))
+            [munit.units :refer [* / + - measure-in magnitude unit pow rebase]]))
 
 (def m 'm)
 (def s 's)
@@ -83,5 +83,22 @@
   (testing "sane monoidal zero"
     (is (= 1 (magnitude [])))
     (is (= {} (unit []))))
+
+  )
+
+(deftest pow-pow
+  (is (= 1 (pow [3 'm] 0)))
+  (is (= [3 'm] (pow [3 'm] 1)))
+  (is (= [9.0 {'m 2}] (pow [3 'm] 2)))
+
+  )
+
+(deftest rebase-test
+  (is (= [7000 'mm]
+         (rebase [7 'm]
+                 {'m [1000 'mm]})))
+  (is (= [7000000.0 {'mm 2}]
+         (rebase [7 {'m 2}]
+                 {'m [1000 'mm]})))
 
   )

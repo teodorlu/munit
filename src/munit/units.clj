@@ -27,7 +27,8 @@
   You can contruct any derived unit yourself:
     (def km (u/* 1000 si/m))"
   (:refer-clojure :exclude [* / + -])
-  (:require [munit.impl :refer [simplify invert div add negate sub]]))
+  (:require [clojure.math]
+            [munit.impl :refer [simplify invert div add negate sub]]))
 
 (defn *
   ([] 1)
@@ -73,3 +74,28 @@
   "The unit (map from base unit to exponent) of a quantity"
   [x]
   (munit.impl/unit x))
+
+(defn pow
+  "Raise a number to a power
+
+  Following clojure.math/pow, the number's magnitude may turn into a floating
+  point number.."
+  [x exponent]
+  (case exponent
+    0 1
+    1 x
+    (munit.impl/simplify [(clojure.math/pow (magnitude x) exponent)
+                          (reduce (fn [base-unit-exponents [base-unit unit-exponent]]
+                                    (assoc base-unit-exponents
+                                           base-unit (* unit-exponent exponent)))
+                                  {}
+                                  (munit.impl/unit x))])))
+
+(defn rebase
+  [x rebase-map]
+  (munit.impl/simplify [(munit.impl/magnitude x)
+                        (mapv (fn [[base exponent]]
+                                (if-let [replacement (get rebase-map base)]
+                                  (pow replacement exponent)
+                                  {base exponent}))
+                              (munit.impl/unit x))]))
