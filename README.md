@@ -27,7 +27,7 @@ Munit represents numbers with units as Clojure data.
 
 | Example             | Interpretation                |
 |---------------------|-------------------------------|
-| `44`                | Unitless quantity             |
+| `44`                | The unitless number 44        |
 | `'m`                | One meter                     |
 | `{'m 2}`            | One square meter              |
 | `[44 'm]`           | 44 meters                     |
@@ -82,7 +82,7 @@ with units in Datomic.
   ;; => [5.0 {m 1.0}]
 ```
 
-You'll need to choose which numeric type from Datomic to represent quantity and
+You'll need to choose which numeric type from Datomic to represent magnitude and
 base unit exponent.
 
 ## Design goals
@@ -108,13 +108,15 @@ base unit exponent.
 
 ## Future ideas
 
-I've had dataflow programming with quantities in the back of my head for about ten years.
-Mathcad introduced me to the idea, and [Clerk] and Emmy showed all that was possible within a Clojure REPL.
-μnit would probably be nicer if it was part of Emmy, but that requires some more work (I think).
+I've had dataflow programming with quantities (numbers with units) in the back
+of my head for about ten years. Mathcad introduced me to the idea, and [Clerk]
+and Emmy showed that Mathcad's nicities should be within reach within a Clojure
+REPL. In the future, maybe Emmy gets units, and maybe that work can be helped by
+my work on Munit.
 
 [Clerk]: https://github.com/nextjournal/clerk
 
-After using μnit briefly, I also found I wanted tables where columns had units.
+After using Munit briefly, I wanted tables where columns had units.
 Is that possible with [Tablecloth]?
 For units to work, we need to store a unit along with each column, and hook Tablecloth's column operations (+, -, *, /).
 
