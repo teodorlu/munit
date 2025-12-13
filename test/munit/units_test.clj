@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [+ - / *])
   (:require [clojure.string :as str]
             [clojure.test :refer [deftest is testing]]
-            [munit.prefix :refer [k]]
+            [munit.si.prefix :refer [k]]
             [munit.units :refer [* / + - measure-in magnitude unit pow rebase]]))
 
 (def m 'm)

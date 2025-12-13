@@ -39,7 +39,7 @@ Here's a small example:
 ```clojure
 (ns your-calculation
   (:refer-clojure :exclude [* / + -])
-  (:require [munit.prefix :refer [k M]]
+  (:require [munit.si.prefix :refer [k M]]
             [munit.si :refer [kg m s]]
             [munit.units :refer [* / + - measure-in]]))
 
@@ -98,7 +98,7 @@ base unit exponent.
 
 ## Acknowledgements
 
-- Gerald Sussman for unit and unit system code scmutils.
+- Gerald Sussman for unit and unit system code in [scmutils].
 - Sam Ritchie for help understanding Sussman's intent, and his and Colin Smith's work on [Emmy] (previously sicmutils).
 - Anteo AS for [broch], a nice unit library.
 
