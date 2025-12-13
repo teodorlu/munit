@@ -62,3 +62,17 @@
                              :munit/exponent (coerce-exponent exponent)}))
                      (unit x))}
   )
+
+(comment
+  ;; Alternative: separate attributes for separate numeric types.
+  :munit/magnitude-double
+  :munit/magnitude-long
+  :munit/exponent-double
+  :munit/exponent-long
+  ;; ... which doesn't require any user decisions.
+
+  ;; Querying is still possible.
+  ;; The only feasible querying I can see is to query on base units and natural exponents (whole numbers).
+  ;; meters^1.1 is technically possible, but fringe.
+  ;; ... and still, in that situation, you *can* get all meter base units.
+  )
